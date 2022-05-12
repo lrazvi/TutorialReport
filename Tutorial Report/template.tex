@@ -1,0 +1,78 @@
+\documentclass[10pt,twocolumn]{article} 
+
+% required packages for Oxy Comps style
+\usepackage{oxycomps} % the main oxycomps style file
+\usepackage{times} % use Times as the default font
+\usepackage[style=numeric,sorting=nyt]{biblatex} % format the bibliography nicely
+
+\usepackage{amsfonts} % provides many math symbols/fonts
+\usepackage{listings} % provides the lstlisting environment
+\usepackage{amssymb} % provides many math symbols/fonts
+\usepackage{graphicx} % allows insertion of grpahics
+\usepackage{hyperref} % creates links within the page and to URLs
+\usepackage{url} % formats URLs properly
+\usepackage{verbatim} % provides the comment environment
+\usepackage{xpatch} % used to patch \textcite
+
+\bibliography{references}
+\DeclareNameAlias{default}{last-first}
+
+\xpatchbibmacro{textcite}
+  {\printnames{labelname}}
+  {\printnames{labelname} (\printfield{year})}
+  {}
+  {}
+
+\pdfinfo{
+    /Title (Writing Your Oxy CS Comps Paper in LaTeX)
+    /Author (Justin Li)
+}
+
+\title{Tutorial Report}
+
+\author{Layla Razvi}
+\affiliation{Occidental College}
+\email{lrazvi@oxy.edu}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+My comps project is to create a web app with a user friendly interface to go through Twitter (and possibly other social media) data and search up topics and discussions by date. The tutorial I decided to follow is "How to Use an API with Python (Beginner's Guide)" from rapidapi.com as well as a little bit from "Python and APIs: A Winning Combo for Reading Public Data" by Pedro Pregueiro. These tutorials do not actually use the Twitter API or other social media APIs that I plan on using in my project, and I chose not to use them because the requests may take too long. As someone who does not have a lot of experience working with APIs, I chose these tutorials to practice with the basics of working with an API. In this paper I will go over the methods, evaluation metrics, and results of these tutorials.
+
+\section{Methods}
+Both tutorials start out by defining what APIs are and some basic information on working with them. To start off, an API is an application programming interface that "acts as a communication layer, or as the name says, an interface, that allows different systems to talk to each other without having to understand exactly what each other does" \textcite{Python2022API}. The design model of the API I will be using for this tutorial will be "REST (Representational State Transfer) [which] is typically used for public APIs and is ideal for fetching data from the web"\textcite{Python2022API}. \newline
+
+The first thing I need to do in order to consume an API with Python is to get the requests library, which should allow me to most actions required to consume a public API \textcite{Python2022API}. In the tutorial, it instructs me to enter this command in my terminal: \newline
+\texttt{python -m pip install requests} \newline
+However, since I use Anaconda on my computer, I looked up the conda version of the command and entered this instead:\newline
+\texttt{conda install -c anaconda requests}\newline
+
+Once I got the requests library installed, I decided to work in Jupyter Notebook and created a new kernel to enter the code. The next step in both tutorials was to import the requests library and then enter the \texttt{request.get()} command with a url in the parentheses, where I used the Google website. After running the code, I immediately got a response: \texttt{<Response [200]>}. This response is a "powerful object for inspecting the results of the request...[that] can examine the headers and contents of the response, get a dictionary with data from JSON in the response, and also determine how successful our access to the server was by the response code from it"\textcite{Beginners2021API}. \newline
+
+Up next, the radapi tutorial briefly goes over status codes where my next line of code is a print statement of the status code: \texttt{print(response.statuscode)} where response is a variable set to the precious request.get() command. The output for this was 200, meaning the request was successful. \newline
+
+After this, the tutorial goes through endpoints and API keys. Endpoints are the specific addresses you get your data from while API keys are the most common level of authentication and are used to identify you as an API user or customer and to trace your use of the API \textcite{Beginners2021API}. In the first example I did from the rapidapi tutorial, I made use of an endpoint from a specific API from rapidapi.com called "Bacon Ipsum". The tutorial used an API called "Dino Ipsum API", which unfortunately no longer existed, so I decided to use Bacon Ipsum, which is pretty similar to a random word generator (using lorem ipsum), except it incorporates different names of meats in its responses along with the words from lorem ipsum. To generate this response, I had to look at the Bacon Ipsum API documentation on the rapidapi website, copy its url, headers (API host and key), and parameters and incorporate those into my code in the requests.get() statement. Printing the text of that get statement results in the randomly generated mix of lorem ipsum words and meat names. \newline
+
+The last example I did was from the tutorial by Preguiero since the other example in the rapidapi tutorial was not working. In this example, the endpoint is from the Mars Rover Photo API and the same get command is run except that an API key is used in the parameter. This returns the status key 200 meaning the request was successful. After that, the tutorial goes through how to look at the response and actually extract photos from it, first by using \texttt{.json()} to convert the response into a Pyhton directory. This driectory consisted  of photos and their information from the date 7/01/2020, as specified in the parameters of the request. Then, the I fetched the photos by entering \texttt{response.json()["photos"]} and printed out its length (the amount of photos from that day) which returned "Found 12 photos". Lastly I retrieved the image source of the fourth photo in that list by en \texttt{photos[4]["imgsrc"]}, which returned a string of a link to a jpeg of the photo.
+
+
+
+
+\section{Evaluation Metrics}
+Since the tutorials are a bit different from how I plan on implementing my project, the evaluation metrics are going to differ. My comps project is to create an app using the Twitter API while my goal with this tutorial was to get a better understanding of how to use APIs. \newline
+
+In terms of the evaluation metrics of my project, I plan on having users fill out two surveys before and after using my app as well as a few user interviews. These tutorials solely work with the APIs in Python and I have not created an interface for them. I also was limited in the types of queries I was planning on doing with the Twitter API. Despite this, I was able to learn some basic code and understand how to work with APIs a lot better. 
+
+
+
+\section{Results and Discussion}
+The overall result of these tutorials was me getting a clearer idea of how to use APIs and learn specific aspects of them such as API keys, status codes, endpoints, etc. With these results, I will have a much clearer idea of what to do when I begin working with the Twitter API and making requests with it. 
+
+
+
+\printbibliography 
+
+\end{document}
